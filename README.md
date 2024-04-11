@@ -29,6 +29,7 @@ https://seznam.cz
 ```
 python3 app.py [file]
 ```
+after script finishes, the output is in `data` folder
 
 ## Containerization
 ### Input file
