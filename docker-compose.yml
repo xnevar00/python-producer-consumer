@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  producer-consumer:
+    build: .
+    network_mode: host
+    volumes:
+      - ./output:/app/data
+      - ./input.txt:/conf/input.txt

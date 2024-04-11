@@ -1,0 +1,4 @@
+asyncio
+aiohttp
+bs4
+pytest

@@ -18,7 +18,8 @@ def getUrlFile() -> str:
 
 async def run(producer: Producer, consumer: Consumer) -> None:
     """
-    Launches both producers and consumers
+    Launches both producers and consumers, creates a queue with maximum
+    of 50 items
 
     Parameters:
         producer (Producer): instance of Producer class that fetches data

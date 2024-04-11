@@ -78,8 +78,10 @@ class Consumer:
 
             if self.queue.empty() and end: # there is nothing to be processed
                 break
-
-        with open('output.json', 'w') as f:
+        
+        output_filename = "./data/output.json"
+        os.makedirs("data", exist_ok=True)
+        with open(output_filename, 'w') as f:
             json.dump(self.output, f, indent=4)
 
 def test_process_item():
