@@ -34,6 +34,8 @@ class Consumer:
         elif url.startswith('#'):
             rootURL = rootURL + '/' if not rootURL.endswith('/') else rootURL
             return rootURL + url
+        elif not url.startswith("http"):
+            url = None
         else:
             return url
 
@@ -56,7 +58,8 @@ class Consumer:
                 url = tag.get('href') # get hyperlink
                 if url:
                     url = self.cleanURL(url, item['url'])
-                    urls_all.append(url)
+                    if url is not None:
+                        urls_all.append(url)
 
             self.output[item['url']] = urls_all
 
@@ -78,3 +81,35 @@ class Consumer:
 
         with open('output.json', 'w') as f:
             json.dump(self.output, f, indent=4)
+
+def test_process_item():
+    consumer = Consumer(None)
+    item = {'url': 'https://www.example.com', 'content': '<a href="https://www.example.com/test"/>'}
+    consumer.processItem(item)
+
+    correct_output = ['https://www.example.com/test']
+
+    assert consumer.output[item['url']] == correct_output
+
+def test_process_item_invalid_href():
+    consumer = Consumer(None)
+    item = {'url': 'https://www.example.com', 'content': '<a href="test">'}
+    consumer.processItem(item)
+
+    correct_output = []
+
+    assert consumer.output[item['url']] == correct_output
+
+def test_clean_URL():
+    consumer = Consumer(None)
+    output = consumer.cleanURL('/a', 'https://www.example.com')
+
+    correct_output = 'https://www.example.com/a'
+    assert output == correct_output
+
+def test_clean_URL_invalid_href():
+    consumer = Consumer(None)
+    output = consumer.cleanURL('test', 'https://www.example.com')
+
+    correct_output = None
+    assert output == correct_output
